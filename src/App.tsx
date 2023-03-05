@@ -31,6 +31,11 @@ const App = () => {
 						ref={inputRef}
 						className="pl-2 py-1 border-2 mr-10 w-full md:w-96"
 						placeholder="Search for a word..."
+						onKeyDownCapture={(e) => {
+							if (e.key === "Enter") {
+								handleClick();
+							}
+						}}
 					/>
 					<span className="flex gap-4">
 						<motion.button
@@ -45,7 +50,8 @@ const App = () => {
 							className="px-8 py-1 bg-pink-300 hover:bg-pink-400 rounded-3xl text-lg text-black"
 							whileHover={{ scale: 1.1 }}
 							whileTap={{ scale: 0.98 }}
-							transition={{ duration: 0.25 }}>
+							transition={{ duration: 0.25 }}
+							type="button">
 							Add
 						</motion.button>
 					</span>
