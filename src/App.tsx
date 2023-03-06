@@ -97,7 +97,7 @@ const App = () => {
 												return (
 													<li
 														key={item.definition}
-														className="list-disc font-source text-justify text-[0.5rem] leading-3 md:text-base md:leading-6">
+														className="list-disc font-source text-justify text-sm] leading-3 md:text-base md:leading-6">
 														{item.definition}
 													</li>
 												);
