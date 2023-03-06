@@ -14,22 +14,22 @@ const App = () => {
 		setValue(inputRef.current?.value || "");
 	};
 
-	if (data) {
-		console.log(data);
-	}
+	// if (data) {
+	// 	console.log(data);
+	// }
 
-	if (error) {
-		console.log(error);
-	}
+	// if (error) {
+	// 	console.log(error);
+	// }
 
 	return (
-		<div className="px-20 py-16 bg-green-300 min-h-screen">
-			<section className="bg-[#121212] px-4 py-8 rounded-t-2xl">
-				<label className="block text-lg font-bold text-white">Find Word: </label>
+		<div className="sm:px-20 py-16 bg-green-300 min-h-screen text-sm sm:text-base font-open">
+			<section className="bg-[#121212] px-2 sm:px-4 py-8 sm:rounded-t-2xl">
+				<label className="block sm:text-lg font-bold text-white">Find Word: </label>
 				<div className="flex flex-col gap-4 md:flex-row md:gap-0">
 					<input
 						ref={inputRef}
-						className="pl-2 py-1 border-2 mr-10 w-full md:w-96"
+						className="pl-2 py-1 border-0 w-full sm:mr-10 sm:w-96 sm:text-base"
 						placeholder="Search for a word..."
 						onKeyDownCapture={(e) => {
 							if (e.key === "Enter") {
@@ -39,7 +39,7 @@ const App = () => {
 					/>
 					<span className="flex gap-4">
 						<motion.button
-							className="px-8 py-1 bg-green-300 hover:bg-orange-400 rounded-3xl text-lg text-black"
+							className="px-6 md:px-8 py-1 bg-green-300 hover:bg-green-400 rounded-3xl sm:text-lg text-black"
 							whileHover={{ scale: 1.1 }}
 							whileTap={{ scale: 0.98 }}
 							transition={{ duration: 0.25 }}
@@ -47,7 +47,7 @@ const App = () => {
 							Find
 						</motion.button>
 						<motion.button
-							className="px-8 py-1 bg-pink-300 hover:bg-pink-400 rounded-3xl text-lg text-black"
+							className="px-6 md:px-8 py-1 bg-pink-300 hover:bg-pink-400 rounded-3xl sm:text-lg text-black"
 							whileHover={{ scale: 1.1 }}
 							whileTap={{ scale: 0.98 }}
 							transition={{ duration: 0.25 }}
@@ -59,16 +59,16 @@ const App = () => {
 			</section>
 			<motion.section
 				key={data?.word || "unknownxxx"}
-				className="px-4 py-8 bg-white rounded-b-2xl"
+				className="px-2 sm:px-4 py-8 bg-white sm:rounded-b-2xl"
 				initial={{ clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)" }}
 				animate={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
 				transition={{ duration: 0.8 }}>
 				{isLoading && value !== "" && <div className="font-bold">Loading...</div>}
 				{data && (
 					<>
-						<div>
-							<span className="font-bold">Word: </span>
-							{data.word}
+						<div className="text-2xl md:text-4xl font-source">
+							<span className="underline">Word:</span>
+							<span className="text-green-500 font-bold"> {data.word.toUpperCase()}</span>
 						</div>
 						<div className="">
 							<span className="font-bold">Phonetic: </span>
@@ -80,17 +80,24 @@ const App = () => {
 								)
 								.slice(0, -2)}
 						</div>
-						<div className="mt-4 underline font-bold text-2xl mb-2">Definitions:</div>
+						<div className="mt-4 underline text-lg sm:text-2xl mb-2 font-source">Definitions:</div>
 						<div className="flex flex-col gap-4">
 							{data.meanings.map((type: any, index: number) => {
 								return (
 									<ul key={type.partOfSpeech + index.toString()}>
 										<span className="font-bold">Type: </span>
-										{type.partOfSpeech}
-										<ul className="pl-8 flex flex-col gap-2">
+										<span
+											style={{ color: typeColor(type.partOfSpeech) }}
+											className="md:text-2xl font-source">
+											{type.partOfSpeech}
+										</span>
+
+										<ul className="pl-4 md:pl-8 flex flex-col gap-4 sm:gap-2 divide-y-2">
 											{type.definitions.map((item: any) => {
 												return (
-													<li key={item.definition} className="list-disc text-justify">
+													<li
+														key={item.definition}
+														className="list-disc font-source text-justify text-[0.5rem] leading-3 md:text-base md:leading-6">
 														{item.definition}
 													</li>
 												);
@@ -109,3 +116,16 @@ const App = () => {
 };
 
 export default App;
+
+const typeColor = (type: string) => {
+	switch (type) {
+		case "noun":
+			return "red";
+		case "verb":
+			return "blue";
+		case "adjective":
+			return "green";
+		default:
+			return "black";
+	}
+};
