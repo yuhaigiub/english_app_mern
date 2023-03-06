@@ -6,7 +6,7 @@ import { findWord } from "./api/request";
 const App = () => {
 	const [value, setValue] = useState("");
 	const inputRef = useRef<HTMLInputElement>(null);
-	const { isLoading, isError, data, error } = useQuery(value, () => findWord(value), {
+	const { isLoading, isError, data, error } = useQuery<any, Error>(value, () => findWord(value), {
 		retry: false,
 	});
 
@@ -109,7 +109,9 @@ const App = () => {
 						</div>
 					</>
 				)}
-				{isError && value !== "" && <div className="font-bold">Can't find this word!</div>}
+				{isError && value !== "" && (
+					<div className="font-bold">{error.message || "unknown Error"}</div>
+				)}
 			</motion.section>
 		</div>
 	);
