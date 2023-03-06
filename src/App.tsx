@@ -92,12 +92,12 @@ const App = () => {
 											{type.partOfSpeech}
 										</span>
 
-										<ul className="pl-4 md:pl-8 flex flex-col gap-4 sm:gap-2 divide-y-2">
+										<ul className="pl-4 md:pl-8 flex flex-col justify-center gap-4 sm:gap-2 divide-y-2">
 											{type.definitions.map((item: any) => {
 												return (
 													<li
 														key={item.definition}
-														className="list-disc font-source text-justify text-sm] md:text-base">
+														className="list-disc font-source text-justify text-sm pt-4 sm:pt-2 md:text-base">
 														{item.definition}
 													</li>
 												);
