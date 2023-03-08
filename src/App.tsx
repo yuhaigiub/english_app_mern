@@ -6,34 +6,26 @@ import { findWord } from "./api/request";
 const App = () => {
 	const [value, setValue] = useState("");
 	const inputRef = useRef<HTMLInputElement>(null);
-	const { isLoading, isError, data, error } = useQuery<any, Error>(value, () => findWord(value), {
+	const { isLoading, isError, data, error } = useQuery<any, string>(value, () => findWord(value), {
 		retry: false,
 	});
 
-	const handleClick = () => {
+	const handleFind = () => {
 		setValue(inputRef.current?.value || "");
 	};
 
-	// if (data) {
-	// 	console.log(data);
-	// }
-
-	// if (error) {
-	// 	console.log(error);
-	// }
-
 	return (
-		<div className="sm:px-20 py-16 bg-green-300 min-h-screen text-sm sm:text-base font-open">
+		<div className="sm:px-20 py-16 bg-gradient-to-r from-green-400 to-cyan-400 min-h-screen text-sm sm:text-base font-open">
 			<section className="bg-[#121212] px-2 sm:px-4 py-8 sm:rounded-t-2xl">
 				<label className="block sm:text-lg font-bold text-white">Find Word: </label>
 				<div className="flex flex-col gap-4 md:flex-row md:gap-0">
 					<input
 						ref={inputRef}
 						className="pl-2 py-1 border-0 w-full sm:mr-10 sm:w-96 sm:text-base"
-						placeholder="Search for a word..."
+						placeholder="Search a word..."
 						onKeyDownCapture={(e) => {
 							if (e.key === "Enter") {
-								handleClick();
+								handleFind();
 							}
 						}}
 					/>
@@ -41,18 +33,21 @@ const App = () => {
 						<motion.button
 							className="px-6 md:px-8 py-1 bg-green-300 hover:bg-green-400 rounded-3xl sm:text-lg text-black"
 							whileHover={{ scale: 1.1 }}
-							whileTap={{ scale: 0.98 }}
+							whileTap={{ scale: 0.97 }}
 							transition={{ duration: 0.25 }}
-							onClick={handleClick}>
+							onClick={handleFind}>
 							Find
 						</motion.button>
 						<motion.button
 							className="px-6 md:px-8 py-1 bg-pink-300 hover:bg-pink-400 rounded-3xl sm:text-lg text-black"
 							whileHover={{ scale: 1.1 }}
-							whileTap={{ scale: 0.98 }}
+							whileTap={{ scale: 0.97 }}
 							transition={{ duration: 0.25 }}
-							type="button">
-							Add
+							type="button"
+							onClick={() => {
+								if (inputRef.current) inputRef.current.value = "";
+							}}>
+							Clear
 						</motion.button>
 					</span>
 				</div>
@@ -109,9 +104,7 @@ const App = () => {
 						</div>
 					</>
 				)}
-				{isError && value !== "" && (
-					<div className="font-bold">{error.message || "unknown Error"}</div>
-				)}
+				{isError && value !== "" && <div className="font-bold">{error || "unknown Error"}</div>}
 			</motion.section>
 		</div>
 	);
